@@ -1,8 +1,9 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const session = require('session');
+const session = require('express-session');
 const cors = require('cors');
+const errorHandler = require('errorhandler');
 const mongoose = require('mongoose');
 
 mongoose.promise = global.Promise;
@@ -17,6 +18,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'LightBlog', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+
+if(!isProduction) {
+  app.use(errorHandler());
+}
 
 mongoose.connect('mongodb://localhost/lightblog');
 mongoose.set('debug', true);
@@ -53,3 +58,5 @@ app.use((err, req, res) => {
     },
   });
 });
+
+const server = app.listen(8000, () => console.log('Server started on http://localhost:8000'));
