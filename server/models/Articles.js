@@ -10,9 +10,12 @@ const ArticlesSchema = new Schema({
 
 ArticlesSchema.methods.toJSON = function() {
   return {
+    _id: this._id,
     title: this.title,
     body: this.body,
     author: this.author,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
   };
 };
 
