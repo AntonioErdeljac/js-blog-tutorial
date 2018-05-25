@@ -21,10 +21,10 @@ router.post('/', (req, res, next) => {
     });
   }
 
-  if(!body.description) {
+  if(!body.body) {
     return res.status(422).json({
       errors: {
-        description: 'is required',
+        body: 'is required',
       },
     });
   }
@@ -37,6 +37,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   return Articles.find()
+    .sort({ createdAt: 'descending' })
     .then((articles) => res.json({ articles: articles.map(article => article.toJSON()) }))
     .catch(next);
 });
@@ -69,12 +70,18 @@ router.patch('/:id', (req, res, next) => {
     req.article.author = body.author;
   }
 
-  if(typeof body.description !== 'undefined') {
-    req.article.description = body.description;
+  if(typeof body.body !== 'undefined') {
+    req.article.body = body.body;
   }
 
   return req.article.save()
     .then(() => res.json({ article: req.article.toJSON() }))
+    .catch(next);
+});
+
+router.delete('/:id', (req, res, next) => {
+  return Articles.findByIdAndRemove(req.article._id)
+    .then(() => res.sendStatus(200))
     .catch(next);
 });
 
