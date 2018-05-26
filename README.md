@@ -16,14 +16,14 @@ Install backend packages
 
 ```
 cd server/
-sudo npm install --save
+npm i
 ```
 
 Install frontend packages
 
 ```
 cd client/
-sudo npm install --save
+npm i
 ```
 
 ### Running the app
