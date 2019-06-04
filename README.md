@@ -1,4 +1,4 @@
-# Blog-Tutorial
+# A simple CRUD Blog Engine
 
 Simple blog created using React.js & Node.js
 
